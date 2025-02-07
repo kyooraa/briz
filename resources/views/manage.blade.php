@@ -17,23 +17,24 @@
 
         .footer-container {
             background-color: #dddddd;
-            position: fixed;
+            position: static;
             bottom: 0;
             left: 0;
             width: 100%;
             padding: 15px 0;
             margin-top: 40px;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            background-color: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);s
         }
 
         .footer-content {
-            text-align: center;
-            color: #333;
-            font-size: 0.9rem;
-            margin: 0;
-            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+
         }
 
         main {
@@ -351,6 +352,42 @@
             display: block; /* Show when sidebar is open */
             opacity: 1;
         }
+@media (max-width: 768px) {
+    aside {
+        width: 80px;
+    }
+
+    aside.active ul li {
+        padding: 0.75rem;
+        justify-content: center;
+    }
+
+    aside.active ul li i {
+        margin-right: 0;
+    }
+
+    aside.active ul li label {
+        display: none;
+    }
+
+    aside.active {
+        display: block;
+    }
+
+    /* Hide the logo image on mobile */
+    aside .logo-img {
+        display: none !important;
+    }
+
+    aside .duropdowun {
+        /* margin-right:-10px; */
+    }
+
+    /* Add this to hide the label directly */
+    aside ul li label {
+        display: none;
+    }
+}
     </style>
 </head>
 <body>
@@ -370,7 +407,6 @@
                         <label class="ms-2">Dashboard</label>
                     </a>
                 </li>
-
                 <li class="active">
                     <i class="fi fi-rr-document"></i>
                     <label>Form</label>
@@ -382,23 +418,23 @@
                     </a>
                 </li>
                 <li style="margin-top:400px">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:normal;">
-                    <ion-icon name="person-circle-outline" size="large"></ion-icon>
+                    <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark duropdowun " role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:normal;">
+                        <ion-icon name="person-circle-outline" size="large"></ion-icon>
                         <label class="ms-2">{{ Auth::user()->nama_lengkap }}</label>
                     </a>
                     <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit</a></li>
-                  <li style="margin-top:-10px">
-                    <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="{{route('logout')}}"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();" class="dropdown-item">
-                        {{ __('Log Out') }}
-                    </a>
-                    </form>
-                </li>
-                </ul>
+                        <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit</a></li>
+                        <li style="margin-top:-10px">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a href="{{route('logout')}}"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();" class="dropdown-item">
+                                    {{ __('Log Out') }}
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -526,6 +562,23 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('toggle');
+            const sidebar = document.querySelector('aside');
+
+            toggleButton.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            // Menutup sidebar saat mengklik di luar sidebar
+            document.addEventListener('click', function(event) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+    </script>
 
     <!-- Scripts -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -654,10 +707,5 @@
                 });
             });
         </script>
-        <div class="footer-container">
-            <div class="footer-content">
-                © Copyright 2025 PT Jago Talenta Indonesia. All Rights Reserved
-            </div>
-        </div>
     </body>
     </html>
