@@ -10,7 +10,7 @@ class ManagementController extends Controller
 {
     public function store(Request $req) {
         Log::info('Form submission started');
-
+        dd($req->all());
         $validateData = $req->validate([
             'tanggal' => 'required|date',
             'jenis' => 'required|in:hadir,izin,sakit,spj,lembur,weekly_report,cuti',

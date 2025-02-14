@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.2.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-u3h5SFn5baVOWbh8UkOrAaLXttgSF0vXI15ODtCSxl0v/VKivnCN6iHCcvlyTL7L" crossorigin="anonymous">
+
+    <!-- Moment.js (Required for DateRangePicker) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <!-- DateRangePicker CSS & JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.1/daterangepicker.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.1/daterangepicker.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&display=swap');
@@ -17,24 +26,22 @@
 
         .footer-container {
             background-color: #dddddd;
-            position: static;
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             padding: 15px 0;
             margin-top: 40px;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-            background-color: rgba(255, 255, 255, 0.1);s
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px;
-
+            text-align: center;
+            color: #333;
+            font-size: 0.9rem;
+            margin: 0;
+            padding: 0 15px;
         }
 
         main {
@@ -44,7 +51,6 @@
         body {
             display: flex;
             background-color: #f4f3f3;
-           
         }
 
         aside {
@@ -138,6 +144,21 @@
             color: #000;
         }
 
+        .dropdown-menu .dropdown-item {
+            color: #000;
+            /* Warna teks default */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Animasi perubahan */
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #FF7700 !important;
+            /* Warna latar belakang saat hover */
+            color: #fff !important;
+            /* Warna teks saat hover */
+        }
+
+
         /* Main content adjustment */
         .main-wrapper {
             display: flex;
@@ -153,7 +174,7 @@
             max-width: 1200px;
         }
 
-        aside.mini + .main-wrapper main {
+        aside.mini+.main-wrapper main {
             margin-left: 80px;
             width: calc(100% - 80px);
         }
@@ -164,7 +185,7 @@
             margin-bottom: 0;
             text-align: center;
         }
-        
+
         .page-subtitle {
             color: #6C757D;
             font-size: 1rem;
@@ -172,13 +193,15 @@
             text-align: center;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: #007bff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
@@ -318,8 +341,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .nav-link {
@@ -337,59 +365,35 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            margin-bottom: 80px;
             padding: 0 15px;
         }
+
         .logo-img {
             width: 120px;
             height: auto;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
             margin-left: 10px;
             transition: all 0.3s ease;
             opacity: 0;
         }
 
         aside:not(.mini) .logo-img {
-            display: block; /* Show when sidebar is open */
+            display: block;
+            /* Show when sidebar is open */
             opacity: 1;
         }
-@media (max-width: 768px) {
-    aside {
-        width: 80px;
-    }
 
-    aside.active ul li {
-        padding: 0.75rem;
-        justify-content: center;
-    }
-
-    aside.active ul li i {
-        margin-right: 0;
-    }
-
-    aside.active ul li label {
-        display: none;
-    }
-
-    aside.active {
-        display: block;
-    }
-
-    /* Hide the logo image on mobile */
-    aside .logo-img {
-        display: none !important;
-    }
-
-    aside .duropdowun {
-        /* margin-right:-10px; */
-    }
-
-    /* Add this to hide the label directly */
-    aside ul li label {
-        display: none;
-    }
-}
+        .btn-success {
+            color: white !important;
+        }
+        .btn-success:hover {
+            color: white !important;
+        }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <aside>
@@ -407,20 +411,23 @@
                         <label class="ms-2">Dashboard</label>
                     </a>
                 </li>
+
                 <li class="active">
                     <i class="fi fi-rr-document"></i>
-                    <label>Form</label>
+                    <label class="ms-2">Form</label>
                 </li>
+
                 <li>
-                    <a href="{{ route('profile.edit') }}" class="d-flex align-items-center text-decoration-none text-dark">
-                        <i class="fi fi-rr-user"></i>
-                        <label class="ms-2">User</label>
+                    <a class="d-flex align-items-center text-decoration-none text-dark">
+                        <i class="fi fi-rr-chart-histogram"></i>
+                        <label class="ms-2">Report</label>
                     </a>
                 </li>
-                <li style="margin-top:400px">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark duropdowun " role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:normal;">
+
+                <li style="margin-top:360px">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none text-dark" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-weight:normal;">
                         <ion-icon name="person-circle-outline" size="large"></ion-icon>
-                        <label class="ms-2">{{ Auth::user()->nama_lengkap }}</label>
+                        <label class="ms-2">{{ Str::limit(Auth::user()->name, 10, '...') }}</label>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit</a></li>
@@ -429,7 +436,7 @@
                                 @csrf
                                 <a href="{{route('logout')}}"
                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();" class="dropdown-item">
+                                        this.closest('form').submit();" class="dropdown-item">
                                     {{ __('Log Out') }}
                                 </a>
                             </form>
@@ -445,16 +452,16 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="container mt-4">
                 <div class="bs-stepper">
-                    <h1 class="page-title">Add Performance Analyst</h1>
-                    <p class="page-subtitle">Make your own performance report</p>
-                    
+                    <h1 class="page-title">Laporan Kinerja</h1>
+                    <p class="page-subtitle">Buat laporan kinerja anda!</p>
+
                     <div class="bs-stepper-header" role="tablist">
                         <div class="step active" data-target="#job-details-part">
                             <div class="step-status">
                                 <span class="bs-stepper-circle">
                                     <i class="bi bi-check-lg"></i>
                                 </span>
-                                <span class="bs-stepper-label">Job Details</span>
+                                <span class="bs-stepper-label">Detail Pekerjaan</span>
                             </div>
                         </div>
                         <div class="step" data-target="#justification-part">
@@ -463,7 +470,7 @@
                                     <span class="bs-stepper-circle">
                                         <i class="bi bi-check-lg"></i>
                                     </span>
-                                    <span class="bs-stepper-label">Justification</span>
+                                    <span class="bs-stepper-label">Justifikasi</span>
                                 </div>
                             </button>
                         </div>
@@ -476,10 +483,9 @@
                             <div id="job-details-part" class="content active" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="jenis" class="form-label">Jenis</label>
+                                        <label for="jenis" class="form-label">Jenis Kehadiran <strong class="text-danger">*</strong></label>
                                         <select class="form-select" id="jenis" name="jenis" required>
-                                            <option value="" selected disabled></option>
-                                            <option value="hadir">Hadir</option>
+                                            <option value="hadir" selected>Hadir</option>
                                             <option value="sakit">Sakit</option>
                                             <option value="izin">Izin</option>
                                             <option value="cuti">Cuti</option>
@@ -489,30 +495,40 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="tipe" class="form-label">Tipe</label>
+                                        <label for="tipe" class="form-label" id="labeltipe">Tipe Hari<strong class='text-danger'> *</strong></label>
                                         <select class="form-select" id="tipe" name="tipe">
-                                            <option value="" selected disabled></option>
-                                            <option value="kerja">Kerja</option>
-                                            <option value="libur">Libur</option>
+                                            <option value="kerja" selected>Hari Kerja</option>
+                                            <option value="libur">Hari Libur</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <label for="datepicker" class="form-label">Tanggal</label>
-                                        <input type="date" class="form-control" id="datepicker" name="tanggal" required>
-                                        <input type="hidden" class="form-control" id="id_talent" name="id_talent" value="{{ Auth::user()->id_talent }}" required>
+                                        <label for="date_range" class="form-label">Tanggal <strong class="text-danger">*</strong></label>
+                                        <input type="date" class="form-control" id="date_range" name="date_range" placeholder="Select date range" hidden>
+                                        <input type="date" class="form-control" id="dat" name="dat" placeholder="Select date" required>
+                                        <input type="hidden" class="form-control" id="id_talent" name="id_talent" value="{{ Auth::user()->id }}" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="durasi" class="form-label">Durasi</label>
-                                        <input type="number" class="form-control" id="durasi" name="durasi" disable>
+                                    <div class="col-md-3 mb-3">
+                                        <label id="durasimsk" for="durasi1" class="form-label">Jam Masuk<strong class='text-danger'> *</strong></label>
+                                        <input type="Time" class="form-control" name="durasi1" id="durasi1" value="{{ old('durasi1') }}" required>
+                                        <input type="hidden" class="form-control" id="durasi" name="durasi" required>
+                                        <div class="invalid-feedback">Please enter your Start Session.</div>
+                                        <p id="errorMsg"></p>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label id="durasiplg" for="durasi2" class="form-label">Jam Pulang<strong class='text-danger'> *</strong></label>
+                                        <input type="Time" class="form-control" name="durasi2" id="durasi2" value="{{ old('durasi2') }}" required>
+                                        <div class="invalid-feedback">Please enter your End Session.</div>
+
                                     </div>
                                 </div>
 
                                 <div class="mt-3">
-                                    <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required></textarea>
+                                    <label for="deskripsi" class="form-label" id="labeldeskripsi">Deskripsi</label>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"></textarea>
                                 </div>
 
                                 <div class="mt-3">
@@ -523,62 +539,45 @@
                                         </span>
                                     </button>
                                 </div>
-                                </div>
+                            </div>
 
-                                <!-- Justification Step -->
-                                <div id="justification-part" class="content" role="tabpanel">
-                                    <div class="mb-3">
-                                        <label for="justifikasi" class="form-label">Approval & Agenda Justification</label>
-                                        <input type="file" class="form-control" id="justifikasi" name="justifikasi" accept=".jpg,.png">
-                                    </div>
-                                    <div class="mt-3">
-                                        <label for="catatan_koreksi" class="form-label">Catatan</label>
-                                        <textarea class="form-control" id="catatan_koreksi" name="catatan_koreksi" rows="3" required></textarea>
-                                        <input type="hidden" id="longitude" name="longitude" required readonly>
-                                        <input type="hidden" id="latitude" name="latitude" required readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <button type="button" class="btn btn-secondary btn-with-circle" onclick="goToStep(1)">
-                                            <span class="circle-icon">
-                                                <i class="bi bi-arrow-left"></i>
-                                            </span>
-                                            PREV
-                                        </button>
-                                        <button type="submit" class="btn btn-success float-end" onclick="getLocation()">Submit</button>
-                                    </div>
+                            <!-- Justification Step -->
+                            <div id="justification-part" class="content" role="tabpanel">
+                                <div class="mb-3">
+                                    <label for="justifikasi" class="form-label" id="labeljustifikasi">Approval & Agenda Justification</label>
+                                    <input type="file" class="form-control" id="justifikasi" name="justifikasi" accept=".jpg,.png,.docx,.pdf,.jpeg">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="catatan_koreksi" class="form-label">Catatan</label>
+                                    <textarea class="form-control" id="catatan_koreksi" name="catatan_koreksi" rows="3" placeholder="Catatan tambahan..."></textarea>
+                                    <input type="hidden" id="longitude" name="longitude" required readonly>
+                                    <input type="hidden" id="latitude" name="latitude" required readonly>
+                                </div>
+                                <div class="mb-3" style="margin-top:25px">
+                                    <button type="button" class="btn btn-secondary btn-with-circle  float-start" onclick="goToStep(1)">
+                                        <span class="circle-icon">
+                                            <i class="bi bi-arrow-left"></i>
+                                        </span>
+                                        PREV
+                                    </button>
+                                    <button type="submit" class="btn btn-success float-end text-white" style="margin-top:10px; color: white !important;" onclick="getLocation()">Submit</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
-                    <!-- Footer -->
-    <div class="footer-container" style="position:s">
-        <div class="footer-content">
-            © Copyright 2025 PT Jago Talenta Indonesia. All Rights Reserved
-        </div>
+            </div>
+            <!-- Footer -->
+            <div class="footer-container" style="position:s">
+                <div class="footer-content">
+                    © Copyright 2025 PT Jago Talenta Indonesia. All Rights Reserved
+                </div>
+            </div>
+
+        </main>
+    </div>
     </div>
 
-            </main>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.getElementById('toggle');
-            const sidebar = document.querySelector('aside');
-
-            toggleButton.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-
-            // Menutup sidebar saat mengklik di luar sidebar
-            document.addEventListener('click', function(event) {
-                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
-            });
-        });
-    </script>
 
     <!-- Scripts -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -590,7 +589,7 @@
     <script>
         let sideBar = document.querySelector("aside");
         let toggle = document.querySelector("#toggle");
-        toggle.addEventListener("click", function (e) {
+        toggle.addEventListener("click", function(e) {
             if (sideBar.classList.contains("mini")) {
                 sideBar.classList.remove("mini");
             } else {
@@ -615,62 +614,197 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('improvedForm');
-            flatpickr("#datepicker", {
-                dateFormat: "Y-m-d",
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateDaily = document.getElementById('dat');
+            const dateWeekly = document.getElementById('date_range');
+            $('#dat').on('keydown paste', function (e) {
+                e.preventDefault(); // Prevent typing
+            });
+            $('#date_range').on('keydown', function (e) {
+                e.preventDefault(); // Prevent typing
             });
 
-            // function lemburr() {
-            //     const isLembur = $('#durasi').val() > 8;
-            //     $('#j_approval').prop('disabled', !isLembur);
-            //     if (isLembur) {
-            //         $('#j_approval').val('');
-            //     }
-            // }
-            // Call the function on page load and when jenis changes
-            // lemburr();
-            // $('#durasi').on('change', lemburr);
 
-            
+            flatpickr("#date_range", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr, instance) {
+                    // You can add custom logic here if needed
+                }
+            });
+            flatpickr("#dat", {
+                mode: "single",
+                dateFormat: "Y-m-d",
+                onChange: function(selectedDates, dateStr, instance) {
+                    // You can add custom logic here if needed
+                }
+            });
+
+            console.log("jQuery Loaded:", typeof jQuery !== "undefined");
+            console.log("DateRangePicker Loaded:", typeof $.fn.daterangepicker !== "undefined");
+            if (typeof $.fn.daterangepicker !== "undefined") {
+                $("#kt_daterangepicker_1").daterangepicker({
+                    locale: { format: 'YYYY-MM-DD' }
+                });
+            } else {
+                console.error("DateRangePicker is not available. Check script loading order.");
+            }
+
+            function datepicks() {
+            if($('#jenis').val() == "weekly_report") {
+                $('#date_range').prop('hidden', false).prop('required', true).val("<?= date('Y-m-d'); ?>");
+                $('#dat').prop('hidden', true).prop('required', false);
+            } else {
+                $('#date_range').prop('hidden', true).prop('required', false);
+                $('#dat').prop('hidden', false).prop('required', true).val("<?= date('Y-m-d'); ?>");
+            }
+        }
+        datepicks();
+        $('#jenis').on('change', datepicks);
+
             function spj() {
-                if ($('#jenis').val() === "spj" || $('#durasi').val() > 8) {
-                    $('#justifikasi').prop('disabled', false);
-                    $('#justifikasi').prop('required', true);
+                let justifikasilabel = $('#labeljustifikasi'); // Gunakan jQuery untuk konsistensi
+                let strongTag = "<strong class='text-danger'> *</strong>";
+
+                if ($('#jenis').val() === "spj" || $('#jenis').val() === "lembur") {
+                    $('#justifikasi').prop('disabled', false).prop('required', true);
+
+                    // Tambahkan <strong> jika belum ada
+                    if (justifikasilabel.find("strong").length === 0) {
+                        justifikasilabel.append(strongTag);
+                    }
                 } else {
-                    $('#justifikasi').prop('disabled', true).val("");
-                    $('#justifikasi').prop('required', false);
+                    $('#justifikasi').prop('disabled', true).val("").prop('required', false);
+
+                    // Hapus <strong> jika kondisi tidak terpenuhi
+                    justifikasilabel.find("strong").remove();
                 }
             }
 
+            function desk() {
+                $("#labeldeskripsi strong").remove();
+                if ($('#jenis').val() == 'lembur' || $('#jenis').val() == 'spj' || $('#jenis').val() == 'cuti' || $('#jenis').val() == 'weekly_report' || $('#jenis').val() == 'sakit' || $('#jenis').val() == 'izin') {
+                    $('#deskripsi').prop('disabled', false).prop('required', true);
+                    $('#labeldeskripsi').append("<strong class='text-danger'> *</strong>");
+                } else if ($('#jenis').val() == 'hadir') {
+                    $('#deskripsi').prop('disabled', true).prop('required', false).val('');
+                }
+            }
+            desk();
+            $('#jenis').on('change', desk);
+
+
             spj();
-             $('#jenis, #durasi').on('change', spj);
+            $('#jenis').on('change', spj);
 
             $("#jenis").change(function() {
-    let selectedValue = $(this).val();
-    
-    if (selectedValue === "weekly_report") {
-        // Menonaktifkan #tipe dan #durasi, reset nilainya
-        $("#tipe, #durasi").prop("disabled", true).val("");
-        $('#justifikasi').val('');
-    } else if (selectedValue === "spj" || selectedValue === "hadir" || selectedValue === "lembur") {
-        // Mengaktifkan #tipe dan #durasi
-        $("#tipe, #durasi").prop("disabled", false);
-        $("#tipe, #durasi").prop("required", true);
-    } else if (selectedValue === "cuti" || selectedValue === "izin" || selectedValue === "sakit") {
-        // Menonaktifkan #durasi dan reset nilainya
-        $("#durasi").prop("disabled", true).val("");
-        $("#durasi").prop("required", false);
-        // Pastikan #tipe tetap aktif jika perlu
-        $("#tipe").prop("disabled", false);
-        $("#tipe").prop("required", true);
-    }
-});
+                let selectedValue = $(this).val();
+                // Hapus tanda * sebelumnya untuk menghindari duplikasi
+                $("#labeltipe strong, #durasimsk strong, #durasiplg strong").remove();
 
-            
-            form.addEventListener('submit', function (event) {
+                if (selectedValue === "weekly_report") {
+                    // Menonaktifkan #tipe dan #durasi, reset nilainya
+                    $("#tipe, #durasi1, #durasi2").prop("disabled", true).val("");
+                    $("#justifikasi").prop("disabled", true).val("");
+                } else if (selectedValue === "spj" || selectedValue === "hadir" || selectedValue === "lembur") {
+                    // Mengaktifkan #tipe dan #durasi
+                    $("#tipe,  #durasi1, #durasi2").prop("disabled", false);
+                    $("#tipe,  #durasi1, #durasi2").prop("required", true);
+                    $('#labeltipe, #durasimsk, #durasiplg').append("<strong class='text-danger'> *</strong>");
+                    $("#tipe").val("kerja");
+                } else if (selectedValue === "cuti" || selectedValue === "izin" || selectedValue === "sakit") {
+                    // Menonaktifkan  #durasi1, #durasi2 dan reset nilainya
+                    $(" #durasi1, #durasi2").prop("disabled", true).val("");
+                    $(" #durasi1, #durasi2").prop("required", false);
+                    $('#labeltipe').append("<strong class='text-danger'> *</strong>");
+                    // Pastikan #tipe tetap aktif jika perlu
+                    $("#tipe").prop("disabled", false);
+                    $("#tipe").prop("required", true);
+                    $("#tipe").val("kerja");
+                }
+            });
+
+            $('#jenis').change(function() {
+                var selectedOption = $(this).val(); // Mendapatkan value dari pilihan yang dipilih
+                var placeholderText = ''; // Placeholder default
+
+                // Menentukan placeholder berdasarkan pilihan
+                if (selectedOption == 'hadir') {
+                    placeholderText = '';
+                } else if (selectedOption == 'lembur') {
+                    placeholderText = 'Jelaskan alasan Lembur...';
+                } else if (selectedOption == 'sakit') {
+                    placeholderText = 'Jelaskan alasan Sakit...';
+                } else if (selectedOption == 'spj') {
+                    placeholderText = 'Jelaskan alasan SPJ...';
+                } else if (selectedOption == 'cuti') {
+                    placeholderText = 'Jelaskan alasan Cuti...';
+                } else if (selectedOption == 'weekly_report') {
+                    placeholderText = 'Apa yang anda lakukan selama satu minggu';
+                } else if (selectedOption == 'izin') {
+                    placeholderText = 'Jelaskan alasan Izin';
+                }
+
+
+                // Mengubah placeholder input field
+                $('#deskripsi').attr('placeholder', placeholderText);
+            });
+
+
+function updateCombinedText() { 
+    let durasi1 = $('#durasi1').val();
+    let durasi2 = $('#durasi2').val();
+
+    if (!durasi1 || !durasi2) return; // Prevent errors if inputs are empty
+
+    // Convert time strings to numbers
+    let [h1, m1] = durasi1.split(':').map(Number);
+    let [h2, m2] = durasi2.split(':').map(Number);
+
+    let totalMinutes1 = h1 * 60 + m1;
+    let totalMinutes2 = h2 * 60 + m2;
+
+    // Check if durasi1 is greater than durasi2
+    if (totalMinutes1 > totalMinutes2) {
+        $('#errorMsg').text("Error: Start time cannot be greater than end time.").css("color", "red");
+        $('#durasi').val(""); // Clear the input field
+        return;
+    } else {
+        $('#errorMsg').text(""); // Clear error if valid
+    }
+
+    let diffMinutes = totalMinutes2 - totalMinutes1;
+
+    // Convert back to HH:MM format
+    let hours = Math.floor(diffMinutes / 60);
+    let minutes = diffMinutes % 60;
+
+    let result = String(hours).padStart(2, '0') + ":" + String(minutes).padStart(2, '0');
+
+    $('#durasi').val(result); // Set the value in the input field
+}
+
+    $('#durasi1, #durasi2').on('input', updateCombinedText);
+
+
+            const form = document.getElementById('improvedForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Validate all fields, including the date
+                let isValid = true;
+                
+                // Validate date
+                if (dateDaily.value === '') {
+                    dateDaily.classList.add('is-invalid');
+                    dateDaily.classList.remove('is-valid');
+                    isValid = false;
+                } else {
+                    dateDaily.classList.remove('is-invalid');
+                    dateDaily.classList.add('is-valid');
+                }
+
                 if (!form.checkValidity()) {
-                    event.preventDefault();
                     event.stopPropagation();
                     Swal.fire({
                         text: "Your data is incorrect!",
@@ -682,8 +816,6 @@
                         }
                     });
                 } else {
-                    event.preventDefault();
-
                     Swal.fire({
                         title: "Are you sure?",
                         text: "You are about to submit the form.",
@@ -694,18 +826,20 @@
                         confirmButtonText: "Yes, submit it!"
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            getLocation();
                             form.submit();
                             Swal.fire({
                                 title: "Submitted!",
                                 text: "Your form has been submitted.",
                                 icon: "success"
-                                });
-                            }
-                        });
-                    }
-                    form.classList.add('was-validated');
-                });
+                            });
+                        }
+                    });
+                }
+                form.classList.add('was-validated');
             });
-        </script>
-    </body>
-    </html>
+        });
+    </script>
+</body>
+</html>
+
