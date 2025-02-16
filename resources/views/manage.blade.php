@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stepper Bootstrap 5</title>
+    <title>Performance Report</title>
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -146,16 +146,12 @@
 
         .dropdown-menu .dropdown-item {
             color: #000;
-            /* Warna teks default */
             transition: background-color 0.3s ease, color 0.3s ease;
-            /* Animasi perubahan */
         }
 
         .dropdown-menu .dropdown-item:hover {
             background-color: #FF7700 !important;
-            /* Warna latar belakang saat hover */
             color: #fff !important;
-            /* Warna teks saat hover */
         }
 
 
@@ -373,7 +369,6 @@
             width: 120px;
             height: auto;
             display: none;
-            /* Hidden by default */
             margin-left: 10px;
             transition: all 0.3s ease;
             opacity: 0;
@@ -381,7 +376,6 @@
 
         aside:not(.mini) .logo-img {
             display: block;
-            /* Show when sidebar is open */
             opacity: 1;
         }
 
@@ -401,7 +395,7 @@
             <button id="toggle">
                 <i class="fi fi-rr-list"></i>
             </button>
-            <img src="https://jagooit.com/assets/img/logo.png" alt="Jago Logo" class="logo-img">
+            <img src="img/jagoit.png" alt="Jago Logo" class="logo-img">
         </div>
         <div class="link">
             <ul>
@@ -418,7 +412,7 @@
                 </li>
 
                 <li>
-                    <a class="d-flex align-items-center text-decoration-none text-dark">
+                    <a href="{{ route('management.view') }}" class="d-flex align-items-center text-decoration-none text-dark">
                         <i class="fi fi-rr-chart-histogram"></i>
                         <label class="ms-2">Report</label>
                     </a>
@@ -506,22 +500,23 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label for="date_range" class="form-label">Tanggal <strong class="text-danger">*</strong></label>
-                                        <input type="date" class="form-control" id="date_range" name="date_range" placeholder="Select date range" hidden>
-                                        <input type="date" class="form-control" id="dat" name="dat" placeholder="Select date" required>
+                                        <input type="date" class="form-control" id="date_range"  placeholder="Pilih tanggal" hidden>
+                                        <input type="date" class="form-control" id="dat" placeholder="Pilih tanggal" required>
+                                        <p id="val"></p>
                                         <input type="hidden" class="form-control" id="id_talent" name="id_talent" value="{{ Auth::user()->id }}" required>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label id="durasimsk" for="durasi1" class="form-label">Jam Masuk<strong class='text-danger'> *</strong></label>
                                         <input type="Time" class="form-control" name="durasi1" id="durasi1" value="{{ old('durasi1') }}" required>
                                         <input type="hidden" class="form-control" id="durasi" name="durasi" required>
-                                        <div class="invalid-feedback">Please enter your Start Session.</div>
+                                        <div class="invalid-feedback"></div>
                                         <p id="errorMsg"></p>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
                                         <label id="durasiplg" for="durasi2" class="form-label">Jam Pulang<strong class='text-danger'> *</strong></label>
                                         <input type="Time" class="form-control" name="durasi2" id="durasi2" value="{{ old('durasi2') }}" required>
-                                        <div class="invalid-feedback">Please enter your End Session.</div>
+                                        <div class="invalid-feedback"></div>
 
                                     </div>
                                 </div>
@@ -560,7 +555,7 @@
                                         </span>
                                         PREV
                                     </button>
-                                    <button type="submit" class="btn btn-success float-end text-white" style="margin-top:10px; color: white !important;" onclick="getLocation()">Submit</button>
+                                    <button type="submit" class="btn btn-primary float-end text-white" style="margin-top:10px; color: white !important;" onclick="getLocation()">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -617,26 +612,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             const dateDaily = document.getElementById('dat');
             const dateWeekly = document.getElementById('date_range');
+            let dateValidated = false;
+
             $('#dat').on('keydown paste', function (e) {
                 e.preventDefault(); // Prevent typing
             });
             $('#date_range').on('keydown', function (e) {
                 e.preventDefault(); // Prevent typing
             });
-
+            
 
             flatpickr("#date_range", {
                 mode: "range",
                 dateFormat: "Y-m-d",
                 onChange: function(selectedDates, dateStr, instance) {
-                    // You can add custom logic here if needed
+                    if (dateValidated) {
+                        validateDateInput(dateWeekly);
+                    }
                 }
             });
             flatpickr("#dat", {
                 mode: "single",
                 dateFormat: "Y-m-d",
                 onChange: function(selectedDates, dateStr, instance) {
-                    // You can add custom logic here if needed
+                    if (dateValidated) {
+                        validateDateInput(dateDaily);
+                    }
                 }
             });
 
@@ -651,32 +652,36 @@
             }
 
             function datepicks() {
-            if($('#jenis').val() == "weekly_report") {
-                $('#date_range').prop('hidden', false).prop('required', true).val("<?= date('Y-m-d'); ?>");
-                $('#dat').prop('hidden', true).prop('required', false);
-            } else {
-                $('#date_range').prop('hidden', true).prop('required', false);
-                $('#dat').prop('hidden', false).prop('required', true).val("<?= date('Y-m-d'); ?>");
+                if ($('#jenis').val() === "weekly_report") {
+                    $('#date_range').prop('hidden', false).prop('required', true).val('');
+                    $('#dat').prop('hidden', true).prop('required', false);
+                    $('#date_range').prop('name', 'tanggal');
+                    $('#dat').removeAttr('name');
+                } else {
+                    $('#date_range').prop('hidden', true).prop('required', false);
+                    $('#dat').prop('hidden', false).prop('required', true).val('');
+                    $('#dat').prop('name', 'tanggal');
+                    $('#date_range').removeAttr('name');
+                }
+
+                if (dateValidated) {
+                    validateDateInput($('#jenis').val() === "weekly_report" ? dateWeekly : dateDaily);
+                }
             }
-        }
-        datepicks();
-        $('#jenis').on('change', datepicks);
+            datepicks();
+            $('#jenis').on('change', datepicks);
 
             function spj() {
-                let justifikasilabel = $('#labeljustifikasi'); // Gunakan jQuery untuk konsistensi
+                let justifikasilabel = $('#labeljustifikasi');
                 let strongTag = "<strong class='text-danger'> *</strong>";
 
                 if ($('#jenis').val() === "spj" || $('#jenis').val() === "lembur") {
                     $('#justifikasi').prop('disabled', false).prop('required', true);
-
-                    // Tambahkan <strong> jika belum ada
                     if (justifikasilabel.find("strong").length === 0) {
                         justifikasilabel.append(strongTag);
                     }
                 } else {
                     $('#justifikasi').prop('disabled', true).val("").prop('required', false);
-
-                    // Hapus <strong> jika kondisi tidak terpenuhi
                     justifikasilabel.find("strong").remove();
                 }
             }
@@ -699,25 +704,20 @@
 
             $("#jenis").change(function() {
                 let selectedValue = $(this).val();
-                // Hapus tanda * sebelumnya untuk menghindari duplikasi
                 $("#labeltipe strong, #durasimsk strong, #durasiplg strong").remove();
 
                 if (selectedValue === "weekly_report") {
-                    // Menonaktifkan #tipe dan #durasi, reset nilainya
                     $("#tipe, #durasi1, #durasi2").prop("disabled", true).val("");
                     $("#justifikasi").prop("disabled", true).val("");
                 } else if (selectedValue === "spj" || selectedValue === "hadir" || selectedValue === "lembur") {
-                    // Mengaktifkan #tipe dan #durasi
                     $("#tipe,  #durasi1, #durasi2").prop("disabled", false);
                     $("#tipe,  #durasi1, #durasi2").prop("required", true);
                     $('#labeltipe, #durasimsk, #durasiplg').append("<strong class='text-danger'> *</strong>");
                     $("#tipe").val("kerja");
                 } else if (selectedValue === "cuti" || selectedValue === "izin" || selectedValue === "sakit") {
-                    // Menonaktifkan  #durasi1, #durasi2 dan reset nilainya
                     $(" #durasi1, #durasi2").prop("disabled", true).val("");
                     $(" #durasi1, #durasi2").prop("required", false);
                     $('#labeltipe').append("<strong class='text-danger'> *</strong>");
-                    // Pastikan #tipe tetap aktif jika perlu
                     $("#tipe").prop("disabled", false);
                     $("#tipe").prop("required", true);
                     $("#tipe").val("kerja");
@@ -725,10 +725,9 @@
             });
 
             $('#jenis').change(function() {
-                var selectedOption = $(this).val(); // Mendapatkan value dari pilihan yang dipilih
-                var placeholderText = ''; // Placeholder default
+                var selectedOption = $(this).val();
+                var placeholderText = '';
 
-                // Menentukan placeholder berdasarkan pilihan
                 if (selectedOption == 'hadir') {
                     placeholderText = '';
                 } else if (selectedOption == 'lembur') {
@@ -742,104 +741,125 @@
                 } else if (selectedOption == 'weekly_report') {
                     placeholderText = 'Apa yang anda lakukan selama satu minggu';
                 } else if (selectedOption == 'izin') {
-                    placeholderText = 'Jelaskan alasan Izin';
+                    placeholderText = 'Jelaskan alasan Izin...';
                 }
 
-
-                // Mengubah placeholder input field
                 $('#deskripsi').attr('placeholder', placeholderText);
             });
 
+            function updateCombinedText() { 
+                let durasi1 = $('#durasi1').val();
+                let durasi2 = $('#durasi2').val();
+            
+                if (!durasi1 || !durasi2) return; 
+            
+                let [h1, m1] = durasi1.split(':').map(Number);
+                let [h2, m2] = durasi2.split(':').map(Number);
+            
+                let totalMinutes1 = h1 * 60 + m1;
+                let totalMinutes2 = h2 * 60 + m2;
+            
+                if (totalMinutes1 > totalMinutes2) {
+                    $('#errorMsg').text("Error: Start time cannot be greater than end time.").css("color", "red");
+                    $('#durasi').val(""); 
+                    return;
+                } else {
+                    $('#errorMsg').text(""); 
+                }
+            
+                let diffMinutes = totalMinutes2 - totalMinutes1;
+            
+                let hours = Math.floor(diffMinutes / 60);
+                let minutes = diffMinutes % 60;
+            
+                let result = String(hours).padStart(2, '0') + ":" + String(minutes).padStart(2, '0');
+            
+                $('#durasi').val(result); 
+            }
 
-function updateCombinedText() { 
-    let durasi1 = $('#durasi1').val();
-    let durasi2 = $('#durasi2').val();
+            $('#durasi1, #durasi2').on('input', updateCombinedText);
 
-    if (!durasi1 || !durasi2) return; // Prevent errors if inputs are empty
+    function validateDateInput(input) {
+        let isValid = false;
 
-    // Convert time strings to numbers
-    let [h1, m1] = durasi1.split(':').map(Number);
-    let [h2, m2] = durasi2.split(':').map(Number);
+        if ($('#jenis').val() === "weekly_report") {
+            // Pastikan ada value, lalu cek panjangnya
+            if (input.value && input.value.length === 24) {
+                isValid = true;
+            } else {
+                isValid = false;
+            }
+        } else {
+            // Untuk date picker biasa, cukup pastikan ada value
+            isValid = !!input.value;
+        }
 
-    let totalMinutes1 = h1 * 60 + m1;
-    let totalMinutes2 = h2 * 60 + m2;
-
-    // Check if durasi1 is greater than durasi2
-    if (totalMinutes1 > totalMinutes2) {
-        $('#errorMsg').text("Error: Start time cannot be greater than end time.").css("color", "red");
-        $('#durasi').val(""); // Clear the input field
-        return;
-    } else {
-        $('#errorMsg').text(""); // Clear error if valid
+        // Update tampilan input
+        if (isValid) {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        } else {
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        }
+        return isValid;
     }
 
-    let diffMinutes = totalMinutes2 - totalMinutes1;
+    const form = document.getElementById('improvedForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    // Convert back to HH:MM format
-    let hours = Math.floor(diffMinutes / 60);
-    let minutes = diffMinutes % 60;
+        // Tambahkan kelas 'was-validated' segera agar validasi bawaan muncul di semua input
+        form.classList.add('was-validated');
+        dateValidated = true;
 
-    let result = String(hours).padStart(2, '0') + ":" + String(minutes).padStart(2, '0');
+        // Validasi custom untuk input tanggal
+        let inputToValidate = $('#jenis').val() === "weekly_report" ? dateWeekly : dateDaily;
+        let customValid = validateDateInput(inputToValidate);
 
-    $('#durasi').val(result); // Set the value in the input field
-}
+        // Validasi bawaan HTML untuk seluruh form (termasuk input lain)
+        let builtInValid = form.checkValidity();
 
-    $('#durasi1, #durasi2').on('input', updateCombinedText);
-
-
-            const form = document.getElementById('improvedForm');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                // Validate all fields, including the date
-                let isValid = true;
-                
-                // Validate date
-                if (dateDaily.value === '') {
-                    dateDaily.classList.add('is-invalid');
-                    dateDaily.classList.remove('is-valid');
-                    isValid = false;
-                } else {
-                    dateDaily.classList.remove('is-invalid');
-                    dateDaily.classList.add('is-valid');
+        // Jika salah satu validasi gagal, tampilkan error dan hentikan submit
+        if (!customValid || !builtInValid) {
+            event.stopPropagation();
+            Swal.fire({
+                text: "Data yang anda masukkan tidak valid!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Kembali",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
                 }
-
-                if (!form.checkValidity()) {
-                    event.stopPropagation();
-                    Swal.fire({
-                        text: "Your data is incorrect!",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Back",
-                        customClass: {
-                            confirmButton: "btn btn-secondary"
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "You are about to submit the form.",
-                        icon: "question",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, submit it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            getLocation();
-                            form.submit();
-                            Swal.fire({
-                                title: "Submitted!",
-                                text: "Your form has been submitted.",
-                                icon: "success"
-                            });
-                        }
-                    });
-                }
-                form.classList.add('was-validated');
             });
+            return;
+        }
+
+        // Jika semua valid, minta konfirmasi pengiriman form
+        Swal.fire({
+            title: "Apakah anda yakin?",
+            text: "Anda akan mengirim form ini.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Batal",
+            confirmButtonText: "Ya"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                getLocation();
+                form.submit();
+                Swal.fire({
+                    title: "Terkirim!",
+                    text: "Form anda telah terkirim.",
+                    icon: "success"
+                });
+            }
+        });
+    });
         });
     </script>
 </body>
 </html>
-
+</body>
+</html>
